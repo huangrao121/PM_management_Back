@@ -26,6 +26,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    //Login function
     @PostMapping(value = "/login")
     public Result<UserVo> login(@RequestBody UserDTO userDTO, HttpServletResponse response){
         log.info("The decode value: ");
@@ -47,8 +49,10 @@ public class UserController {
         return Result.error("user name or password is incorrect");
     }
 
+    //Register function
     @PostMapping("/register")
-    public Result<UserVo> register(@RequestBody UserDTO userDTO){
+    public Result register(@RequestBody UserDTO userDTO){
+        log.info("register is: {}", userDTO);
         User user = userService.register(userDTO);
         return Result.success();
     }

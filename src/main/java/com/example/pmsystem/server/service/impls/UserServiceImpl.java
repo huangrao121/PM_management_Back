@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(UserDTO userDTO) {
+    public int register(UserDTO userDTO) {
         return userMapper.register(userDTO);
     }
 }

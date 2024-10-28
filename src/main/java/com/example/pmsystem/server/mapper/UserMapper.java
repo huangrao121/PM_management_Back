@@ -13,5 +13,5 @@ public interface UserMapper{
     User login(UserDTO userDTO);
 
     @Insert("insert into users (username, email, password) values (#{username},#{email},#{password})")
-    User register(UserDTO userDTO);
+    int register(UserDTO userDTO);
 }

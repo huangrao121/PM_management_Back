@@ -8,5 +8,5 @@ public interface UserService {
 
     User login(UserDTO userDTO);
 
-    User register(UserDTO userDTO);
+    int register(UserDTO userDTO);
 }

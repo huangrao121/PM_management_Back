@@ -9,13 +9,11 @@ import com.example.pmsystem.server.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Encoders;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
 
@@ -53,7 +51,20 @@ public class UserController {
     @PostMapping("/register")
     public Result register(@RequestBody UserDTO userDTO){
         log.info("register is: {}", userDTO);
-        User user = userService.register(userDTO);
+        int result = userService.register(userDTO);
+        log.info("register result is: {}",result);
         return Result.success();
+    }
+
+    @GetMapping("/current")
+    public Result<UserVo> verify(HttpServletRequest req){
+        String username = (String) req.getAttribute("username");
+        String email = (String) req.getAttribute("email");
+        log.info("user controller verify api: {},{}",username,email);
+        UserVo userVo = new UserVo().builder()
+                .userName(username)
+                .email(email)
+                .build();
+        return Result.success(userVo);
     }
 }

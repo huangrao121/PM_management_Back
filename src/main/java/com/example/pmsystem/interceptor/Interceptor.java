@@ -17,11 +17,12 @@ public class Interceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
         String token = cookies[0].getValue();
+        log.info("interceptor stage token is {}",token);
         try{
             Claims claims = JWTUtils.parseJwt(token);
             String username = claims.get("user name", String.class);
             String email = claims.get("email", String.class);
-            log.info("User name is {}, email is {}", username, email);
+            log.info("Through Interceptor user name is {}, email is {}", username, email);
             request.setAttribute("username", username);
             request.setAttribute("email", email);
         }catch (Exception e){

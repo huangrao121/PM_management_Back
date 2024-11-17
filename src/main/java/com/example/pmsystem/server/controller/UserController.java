@@ -36,8 +36,10 @@ public class UserController {
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             cookie.setMaxAge(7200);
+
             response.addCookie(cookie);
             UserVo userVo = UserVo.builder()
+                    .id(user.getId())
                     .email(user.getEmail())
                     .userName(user.getUsername())
                     .jwtToken(token)
@@ -60,8 +62,10 @@ public class UserController {
     public Result<UserVo> verify(HttpServletRequest req){
         String username = (String) req.getAttribute("username");
         String email = (String) req.getAttribute("email");
+        long id = (long)req.getAttribute("id");
         log.info("user controller verify api: {},{}",username,email);
-        UserVo userVo = new UserVo().builder()
+        UserVo userVo = UserVo.builder()
+                .id(id)
                 .userName(username)
                 .email(email)
                 .build();

@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserVo {
-    private long id;
-    private String email;
-    private String userName;
-    private String jwtToken;
+public class WorkspaceVO {
+    private String name;
+    private String creater_name;
+    private int creater_id;
 }

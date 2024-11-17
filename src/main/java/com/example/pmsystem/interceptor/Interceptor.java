@@ -9,22 +9,31 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.Enumeration;
+
 
 @Component
 @Slf4j
 public class Interceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        String token = cookies[0].getValue();
-        log.info("interceptor stage token is {}",token);
+        String authorizationHeader = request.getHeader("Authorization");
+        System.out.println(authorizationHeader);
         try{
-            Claims claims = JWTUtils.parseJwt(token);
-            String username = claims.get("user name", String.class);
-            String email = claims.get("email", String.class);
-            log.info("Through Interceptor user name is {}, email is {}", username, email);
-            request.setAttribute("username", username);
-            request.setAttribute("email", email);
+//            Cookie[] cookies = request.getCookies();
+//            String token = cookies[0].getValue();
+//            log.info("interceptor stage token is {}",token);
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                String token = authorizationHeader.substring(7);
+                Claims claims = JWTUtils.parseJwt(token);
+                long id = claims.get("id", Long.class);
+                String username = claims.get("user name", String.class);
+                String email = claims.get("email", String.class);
+                log.info("Through Interceptor user id is {} name is {}, email is {}", id, username, email);
+                request.setAttribute("id", id);
+                request.setAttribute("username", username);
+                request.setAttribute("email", email);
+            }
         }catch (Exception e){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Authorization is missing");

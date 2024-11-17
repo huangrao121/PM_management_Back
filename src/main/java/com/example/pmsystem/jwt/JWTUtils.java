@@ -27,8 +27,9 @@ public class JWTUtils {
         SecretKey sk = new SecretKeySpec(keyByte, "HmacSHA512");
         String username = user.getUsername();
         String email = user.getEmail();
-
+        long id = user.getId();
         return Jwts.builder()
+                .claim("id", id)
                 .claim("user name", username)
                 .claim("email", email)
                 .expiration(new Date(System.currentTimeMillis()+expiration))

@@ -13,4 +13,5 @@ public class WorkspaceVO {
     private String name;
     private String creater_name;
     private int creater_id;
+    private String url;
 }
